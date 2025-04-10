@@ -11,15 +11,17 @@ fi
 NUMERIC='^[0-9]+$'
 BUILD_DATE=$(/bin/date -u +%y%m%d)
 
-# Kill old builder if still alive.
-echo "build: removing existing vision-docker-multibuilder..."
-docker buildx rm vision-docker-multibuilder 2>/dev/null
-
-# Wait for 3s.
+# Remove existing vision-multibuilder.
+echo "Removing old vision-multibuilder..."
+docker buildx rm vision-multibuilder 2>/dev/null
 sleep 3
+echo "Done."
 
-# Create builder.
-docker buildx create --name vision-docker-multibuilder --use  || { echo 'failed'; exit 1; }
+# Create new vision-multibuilder and add remote host for native arm builds.
+echo "Creating new vision-multibuilder..."
+docker buildx create --name vision-multibuilder --use 1>/dev/null || { echo 'buildx: failed to create vision-multibuilder'; exit 1; }
+docker buildx create --name vision-multibuilder --append ssh://arm 2>/dev/null || echo 'buildx: failed to add remote host for native arm builds'
+echo "Done."
 
 echo "Starting 'photoprism/vision' multi-arch build based on $1/Dockerfile..."
 echo "Build Arch: $2"
@@ -68,7 +70,7 @@ else
       --push $1
 fi
 
-echo "Removing vision-docker-multibuilder..."
-docker buildx rm vision-docker-multibuilder
+echo "Removing vision-multibuilder..."
+docker buildx rm vision-multibuilder
 
 echo "Done."
