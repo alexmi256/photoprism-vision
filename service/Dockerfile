@@ -17,8 +17,8 @@ FROM python:3.12-slim
 # Set Open Container Initiative (OCI) annotations.
 # See: https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="PhotoPrism® Vision"
-LABEL org.opencontainers.image.description="Describe Service"
-LABEL org.opencontainers.image.url="https://hub.docker.com/r/photoprism/vision-describe"
+LABEL org.opencontainers.image.description="Computer Vision API"
+LABEL org.opencontainers.image.url="https://hub.docker.com/r/photoprism/vision"
 LABEL org.opencontainers.image.source="https://github.com/photoprism/photoprism-vision/"
 LABEL org.opencontainers.image.documentation="https://github.com/photoprism/photoprism-vision/blob/develop/README.md"
 LABEL org.opencontainers.image.authors="PhotoPrism UG <hello@photoprism.app>"
@@ -80,7 +80,7 @@ RUN requirements.sh
 EXPOSE 5000
 
 # Set container entrypoint script.
-ENTRYPOINT ["/app/scripts/entrypoint.sh"]
+ENTRYPOINT ["/app/venv/bin/flask"]
 
 # Listen at 0.0.0.0:5000 when the container is started.
-CMD [ "flask", "--app", "app", "run", "--no-debug", "--host", "0.0.0.0"]
+CMD [ "--app", "app", "run", "--no-debug", "--host", "0.0.0.0"]

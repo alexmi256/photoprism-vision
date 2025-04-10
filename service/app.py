@@ -137,7 +137,7 @@ def blipGenerateResponse(url):
 
     return "ok", processed_text
 
-@app.route('/api/v1/vision/describe', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption', methods=['POST', 'GET'])
 def generateResponse():
     if request.method == 'POST':
         if not request.is_json:
@@ -184,7 +184,7 @@ def generateResponse():
 
 
 
-@app.route('/api/v1/vision/describe/kosmos-2/patch14-224', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption/kosmos-2/patch14-224', methods=['POST', 'GET'])
 def kosmosController():
     if request.method == 'POST':
         if not request.is_json:
@@ -213,7 +213,7 @@ def kosmosController():
     
 
 
-@app.route('/api/v1/vision/describe/vit-gpt2-image-captioning', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption/vit-gpt2-image-captioning', methods=['POST', 'GET'])
 def vitController():
     if request.method == 'POST':
         if not request.is_json:
@@ -239,7 +239,7 @@ def vitController():
 
 
 
-@app.route('/api/v1/vision/describe/blip-image-captioning-large', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption/blip-image-captioning-large', methods=['POST', 'GET'])
 def blipController():
     if request.method == 'POST':
         if not request.is_json:

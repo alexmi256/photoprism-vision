@@ -1,16 +1,16 @@
-## PhotoPrism: Vision Describe Service
 ## FOR TEST AND DEVELOPMENT ONLY, DO NOT USE IN PRODUCTION
 ## see https://github.com/photoprism/photoprism-vision
 
 services:
-  ## Vision Describe Service, accessible through the following default endpoint URL:
-  ## http://localhost:5000/api/v1/vision/describe
-  vision-describe:
+  ## PhotoPrism® Computer Vision API
+  ## Endpoint: http://localhost:5000/api/v1/vision/caption
+  photoprism-vision:
     ## Build image from source code:
     build: .
-    image: photoprism/vision-describe:develop
+    image: photoprism/vision:develop
     stop_grace_period: 5s
-    command: ["flask", "--app", "app", "run", "--host", "0.0.0.0"]
+    entrypoint: ["/app/venv/bin/flask"]
+    command: ["--app", "app", "run", "--host", "0.0.0.0"]
     working_dir: "/app"
     ## Make the service accessible on port 5000 (only change the left-hand side if necessary, e.g. “80:5000”):
     ports:
@@ -18,6 +18,8 @@ services:
     ## Set environment variables to configure the service (optional):
     environment:
       TF_CPP_MIN_LOG_LEVEL: 0                        # show all TensorFlow log messages
+      NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DRIVER_CAPABILITIES: "all"
       ## Setting the following variables will run the service as a non-root user:
       # PHOTOPRISM_UID: 1000
       # PHOTOPRISM_GID: 1000
@@ -33,10 +35,21 @@ services:
     #  - "/dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools"
     ## Mount current service directory for local development:
     volumes:
-      - ".:/app"
+       - ".:/app"
+       - "python-venv:/app/venv"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: "nvidia"
+              count: 1
+              capabilities: [ gpu ]
 
-## Create shared "photoprism-vision" network for connecting with services in other compose.yaml files
+volumes:
+  python-venv:
+    driver: local
+
 networks:
   default:
-    name: photoprism-vision
-    driver: bridge
+    name: photoprism
+    external: true

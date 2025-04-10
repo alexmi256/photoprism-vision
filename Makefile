@@ -10,15 +10,15 @@ install: venv
 
 build: docker-build
 docker-build:
-	(cd describe && make docker-build)
+	(cd service && make docker-build)
 
-preview: preview-describe
-preview-describe:
-	./build.sh describe linux/amd64
+preview: docker-preview
+docker-preview:
+	./build.sh service linux/amd64
 
-release: release-describe
-release-describe:
-	./build.sh describe linux/amd64,linux/arm64 $(BUILD_DATE)
+release: docker-release
+docker-release:
+	./build.sh service linux/amd64,linux/arm64 $(BUILD_DATE)
 
 start:
 	docker compose --profile=all pull --ignore-pull-failures
@@ -27,7 +27,7 @@ start:
 stop:
 	docker compose down -v
 terminal:
-	docker compose exec vision-describe bash
+	docker compose exec photoprism-vision bash
 logs:
 	docker compose logs -f || true
 
@@ -36,12 +36,12 @@ ifeq ($(UNAME), Linux)
 	sudo apt-get install -y git python3 python3-pip python3-venv python3-wheel
 endif
 
-venv: describe/venv
-describe/venv:
-	(cd describe && make venv)
+venv: service
+service/venv:
+	(cd service && make venv)
 
-upgrade: upgrade-describe
-upgrade-describe:
-	(cd describe && make upgrade)
+upgrade:
+	(cd service && make upgrade)
 
-.PHONY: all pip deps install build deploy deploy-amd64 docker-build venv upgrade upgrade-describe;
+# Declare all targets as "PHONY", see https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html.
+MAKEFLAGS += --always-make

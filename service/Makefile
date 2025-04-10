@@ -24,7 +24,7 @@ start:
 stop:
 	docker compose down -v
 terminal:
-	docker compose exec vision-describe bash
+	docker compose exec photoprism-vision bash
 logs:
 	docker compose logs -f || true
 

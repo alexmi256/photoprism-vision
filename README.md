@@ -1,5 +1,5 @@
-PhotoPrism: Computer Vision Models
-==================================
+PhotoPrism® Computer Vision API
+===============================
 
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-454377.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Documentation](https://img.shields.io/badge/read-the%20docs-4d6a91.svg)](https://docs.photoprism.app/developer-guide/)
@@ -91,7 +91,7 @@ The service then listens on port 5000 by default and its API endpoints for gener
 ```bash
 curl -v -H "Content-Type: application/json" \
   --data '{"url":"https://dl.photoprism.app/img/team/avatar.jpg"}' \
-  -X POST http://localhost:5000/api/v1/vision/describe
+  -X POST http://localhost:5000/api/v1/vision/caption
 ```
 
 At a minimum, a valid image `url` must be specified for this. In addition, a `model` name and an arbitrary `id` [can be passed](#example-request). The API will return the same `id` in [the response](#example-response). If no `id` is passed, a randomly generated UUID will be returned instead.
@@ -107,29 +107,29 @@ If your client submits `POST` requests, the request body must be [JSON-encoded](
 
 Alternatively, you can perform `GET` requests with URL-encoded query parameters, which is easier to test without an HTTP client:
 
-> http://localhost:5000/api/v1/vision/describe?url=https%3A%2F%2Fdl.photoprism.app%2Fimg%2Fteam%2Favatar.jpg&id=3487da77-246e-4b4c-9437-67507177bcd7
+> http://localhost:5000/api/v1/vision/caption?url=https%3A%2F%2Fdl.photoprism.app%2Fimg%2Fteam%2Favatar.jpg&id=3487da77-246e-4b4c-9437-67507177bcd7
 
 ### API Endpoints
 
-#### `/api/v1/vision/describe`
+#### `/api/v1/vision/caption`
 
 This is the default endpoint of the API. An image url should be passed in with the key "url", and optionally a "model" and/or "id" value can be passed in. The "model" key allows the user to specify which of the three models they would like to use. If no model is given, the application will default to using the kosmos-2 model.
 
-#### `/api/v1/vision/describe/kosmos-2/patch14-224`
+#### `/api/v1/vision/caption/kosmos-2/patch14-224`
 
 This is the endpoint for the Kosmos-2 model. An image url should be passed in with the key "url", and optionally a "model" and/or "id" value can be passed in.
 
-#### `/api/v1/vision/describe/vit-gpt2-image-captioning`
+#### `/api/v1/vision/caption/vit-gpt2-image-captioning`
 
 This is the endpoint for the VIT GPT-2 model. An image url should be passed in with the key "url", and optionally an "id" value can be passed in.
 
-#### `/api/v1/vision/describe/blip-image-captioning-large`
+#### `/api/v1/vision/caption/blip-image-captioning-large`
 
 This is the endpoint for the BLIP model. An image url should be passed in with the key "url", and an "id" value can be passed in.
 
 ### Example Request
 
-`POST /api/v1/vision/describe`
+`POST /api/v1/vision/caption`
 
 ```json
 {
@@ -297,7 +297,7 @@ These are the services to generate the captions. There is a function for each mo
 ### Default Endpoint
 
 ```python
-@app.route('/api/v1/vision/describe', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption', methods=['POST', 'GET'])
 def generateResponse():
     if request.method == 'POST':
         if not request.is_json:
@@ -344,7 +344,7 @@ This is the default endpoint. It checks to see if a model is specified, and if i
 ### Specific Endpoints
 
 ```python
-@app.route('/api/v1/vision/describe/kosmos-2/patch14-224', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption/kosmos-2/patch14-224', methods=['POST', 'GET'])
 def kosmosController():
     if request.method == 'POST':
         if not request.is_json:
@@ -373,7 +373,7 @@ def kosmosController():
     
 
 
-@app.route('/api/v1/vision/describe/vit-gpt2-image-captioning', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption/vit-gpt2-image-captioning', methods=['POST', 'GET'])
 def vitController():
     if request.method == 'POST':
         if not request.is_json:
@@ -399,7 +399,7 @@ def vitController():
 
 
 
-@app.route('/api/v1/vision/describe/blip-image-captioning-large', methods=['POST', 'GET'])
+@app.route('/api/v1/vision/caption/blip-image-captioning-large', methods=['POST', 'GET'])
 def blipController():
     if request.method == 'POST':
         if not request.is_json:

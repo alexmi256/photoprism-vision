@@ -21,7 +21,7 @@ sleep 3
 # Create builder.
 docker buildx create --name vision-docker-multibuilder --use  || { echo 'failed'; exit 1; }
 
-echo "Starting 'photoprism/vision-$1' multi-arch build based on $1/Dockerfile..."
+echo "Starting 'photoprism/vision' multi-arch build based on $1/Dockerfile..."
 echo "Build Arch: $2"
 
 if [[ $1 ]] && [[ $2 ]] && [[ -z $3 ]]; then
@@ -33,7 +33,7 @@ if [[ $1 ]] && [[ $2 ]] && [[ -z $3 ]]; then
       --no-cache \
       --build-arg BUILD_TAG=$BUILD_DATE \
       -f $1/Dockerfile \
-      -t photoprism/vision-$1:preview \
+      -t photoprism/vision:preview \
       --push $1
 elif [[ $3 =~ $NUMERIC ]]; then
     echo "Build Tags: $3, latest"
@@ -48,8 +48,8 @@ elif [[ $3 =~ $NUMERIC ]]; then
       --no-cache \
       --build-arg BUILD_TAG=$3 \
       -f $1/Dockerfile \
-      -t photoprism/vision-$1:latest \
-      -t photoprism/vision-$1:$3 $4 \
+      -t photoprism/vision:latest \
+      -t photoprism/vision:$3 $4 \
       --push $1
 else
     echo "Build Tags: $3"
@@ -64,7 +64,7 @@ else
       --no-cache \
       --build-arg BUILD_TAG=$BUILD_DATE \
       -f $1/Dockerfile \
-      -t photoprism/vision-$1:$3 $4 \
+      -t photoprism/vision:$3 $4 \
       --push $1
 fi
 
