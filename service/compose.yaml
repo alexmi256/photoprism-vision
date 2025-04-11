@@ -10,7 +10,7 @@ services:
     image: photoprism/vision:develop
     stop_grace_period: 5s
     entrypoint: ["/app/venv/bin/flask"]
-    command: ["--app", "app", "run", "--host", "0.0.0.0"]
+    command: ["--app", "app", "run", "--debug", "--host", "0.0.0.0"]
     working_dir: "/app"
     ## Make the service accessible on port 5000 (only change the left-hand side if necessary, e.g. “80:5000”):
     ports:
