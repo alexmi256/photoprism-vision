@@ -27,7 +27,7 @@ The currently integrated models, each with [its own endpoint](#api-endpoints), a
 
 ### Kosmos-2
 
-Komsos-2 is the most accurate model of the three. It was developed by Microsoft, and this application uses the transformers implementation of the original model, as described in its [Huggingface](https://huggingface.co/microsoft/kosmos-2-patch14-224). This model was released in June 2023, and offers object detection and spatial reasoning. Kosmos-2 has very accurate accurate image captions (a .04-.1 increase in clip score when compared to the other two models offered), and is the default model used.
+Komsos-2 is the most accurate model of the three. It was developed by Microsoft, and this application uses the transformers implementation of the original model, as described in its [Huggingface](https://huggingface.co/microsoft/kosmos-2-patch14-224). This model was released in June 2023, and offers object detection and spatial reasoning. Kosmos-2 has very accurate image captions (a .04-.1 increase in clip score when compared to the other two models offered), and is the default model used.
 
 ### VIT-GPT2
 
@@ -53,7 +53,7 @@ This model was released by [Salesforce](https://huggingface.co/Salesforce/blip-i
 
 ### Pillow
 
-[Pillow](https://pypi.org/project/pillow/) is used to take the supplied URl and convert it into the format needed to input into the models.
+[Pillow](https://pypi.org/project/pillow/) is used to take the supplied URL and convert it into the format needed to input into the models.
 
 ### Hardware Acceleration Libraries
 
