@@ -1,5 +1,5 @@
 <!--
-We appreciate your interest in contributing! Please provide a brief description of your changes, so we know what is included in this pull request:
+We appreciate your interest in contributing! Please provide a brief description of your changes so that we know what is included in this pull request, and confirm that it meets the acceptance criteria:
 
 - What does it aim to implement, fix or improve? Why?
 - Are the changes related to an existing issue? If yes, which one?
