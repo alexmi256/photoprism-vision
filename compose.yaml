@@ -1,6 +1,6 @@
-## PhotoPrism® Computer Vision API
-## https://github.com/photoprism/photoprism-vision
 services:
+  ## PhotoPrism® Computer Vision API,
+  ## https://github.com/photoprism/photoprism-vision
   photoprism-vision:
     ## Use photoprism/vision:preview for testing preview builds:
     image: photoprism/vision:latest
@@ -17,11 +17,14 @@ services:
       # PHOTOPRISM_GID: 1000
       # PHOTOPRISM_UMASK: 0000
       ## Ollama configuration
-      # OLLAMA_ENABLED: "true"
-      # OLLAMA_HOST: "http://ollama:11434"
+      OLLAMA_ENABLED: "true"
+      OLLAMA_HOST: "http://ollama:11434"
       # OLLAMA_NSFW_PROMPT: "detect NSFW"
       # OLLAMA_LABELS_PROMPT: "give me labels"
       # OLLAMA_CAPTION_PROMPT: "what is on the image?"
+      ## NVIDIA Container Toolkit
+      NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
     ## Share host devices to enable CPU/GPU hardware acceleration (optional):
     # devices:
     #  - "/dev/dri:/dev/dri"
@@ -31,3 +34,38 @@ services:
     #  - "/dev/nvidia-nvswitchctl:/dev/nvidia-nvswitchctl"
     #  - "/dev/nvidia-uvm:/dev/nvidia-uvm"
     #  - "/dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: "nvidia"
+              capabilities: [ gpu ]
+              count: "all"
+
+  ## Ollama Large Language Models
+  ## https://github.com/ollama/ollama
+  ## To install models listed at https://github.com/ollama/ollama?tab=readme-ov-file#model-library:
+  ## docker exec -it ollama ollama run llama3
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    environment:
+      ## NVIDIA Container Toolkit
+      NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
+    volumes:
+      - "ollama:/root/.ollama"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: "nvidia"
+              capabilities: [ gpu ]
+              count: "all"
+
+## Create named volume for ollama models
+volumes:
+  ollama:
+    driver: local
