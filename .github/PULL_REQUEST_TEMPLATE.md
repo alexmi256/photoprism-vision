@@ -22,7 +22,7 @@ These changes implement/fix/improve...
 
 ### Contribution Agreement
 
-*PhotoPrism UG (“PhotoPrism,” “we,” or “us”) hereby confirms that this Contribution is provided on an “as-is” basis, to the fullest extent permitted by applicable law, and without any warranties or conditions, express or implied, including, without limitation, any implied warranties or conditions of non-infringement, merchantability or fitness for a particular purpose. You have no obligation to provide support, maintenance, or other services for your Contributions.*
+*PhotoPrism UG (“PhotoPrism,” “we,” or “us”) hereby confirms that this Contribution is provided on an “as-is” basis, to the fullest extent permitted by applicable law, and without any warranties or conditions, express or implied, including, without limitation, any implied warranties or conditions of non-infringement, merchantability or fitness for a particular purpose. You have no obligation to provide support, maintenance, or other services for your Contribution.*
 
 If you contribute code or other intellectual property, we kindly ask you to also confirm the following, so that we can safely use it in our projects without risking unexpected legal disputes:
 
