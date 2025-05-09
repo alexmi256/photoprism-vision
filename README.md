@@ -1,5 +1,5 @@
-PhotoPrism® Computer Vision API
-===============================
+PhotoPrism® Computer Vision Models
+==================================
 
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-454377.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Documentation](https://img.shields.io/badge/read-the%20docs-4d6a91.svg)](https://docs.photoprism.app/developer-guide/)
@@ -8,7 +8,7 @@ PhotoPrism® Computer Vision API
 [![Bluesky Social](https://dl.photoprism.app/img/badges/badge-bluesky.svg)](https://bsky.app/profile/photoprism.app)
 [![Mastodon](https://dl.photoprism.app/img/badges/badge-floss-social.svg)](https://floss.social/@photoprism)
 
-This repository [provides web services](#usage) with advanced [computer vision models](#models) that can be used with [PhotoPrism](https://github.com/photoprism/photoprism) and other applications.
+This repository provides advanced [computer vision models](#models) that can be used with [PhotoPrism®](https://github.com/photoprism/photoprism) through a [Service API](#usage).
 
 ## Table of Contents
 <!-- TOC -->
