@@ -281,9 +281,10 @@ There is the endpoint that dynamically routes request to `model_name` in url pat
 
 ## Contributors
 
-We would like to thank everyone involved, especially [Aatif Dawawala](https://github.com/Aatif-Dawawala) who got things rolling and contributed much of the initial code:
+We would like to thank everyone involved, especially [Aatif Dawawala](https://github.com/Aatif-Dawawala) for getting things started and contributing the initial code:
 
 - [Aatif Dawawala](https://github.com/Aatif-Dawawala)
+- [Lukáš Kvídera](https://github.com/sgflt)
 - [Niaz Faridani-Rad](https://github.com/derneuere)
 
 [Learn more ›](https://github.com/photoprism/photoprism-vision/graphs/contributors)
@@ -297,6 +298,8 @@ Follow our [step-by-step guide](https://docs.photoprism.app/developer-guide/pull
 ## License and Disclaimer
 
 The files in this repository are licensed under the [Apache License, Version 2.0](https://docs.photoprism.app/license/apache/) (the “License”).
+
+When adding dependencies, for example in `requirements.txt`, please make sure their licenses are compatible. While Apache 2.0 code can be used in projects distributed under the terms of the GNU General Public License (GPL) or AGPL v3, the reverse is not possible.
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
