@@ -299,9 +299,9 @@ Follow our [step-by-step guide](https://docs.photoprism.app/developer-guide/pull
 
 The files in this repository are licensed under the [Apache License, Version 2.0](https://docs.photoprism.app/license/apache/) (the “License”).
 
-When adding dependencies, for example in `requirements.txt`, please make sure their licenses are compatible. While Apache 2.0 code can be used in projects distributed under the terms of the GNU General Public License (GPL) or AGPL v3, the reverse is not possible.
+When adding dependencies, for example in `requirements.txt`, please make sure their licenses are compatible. While code in this repository may be used in projects distributed under the terms of the GNU General Public License (GPL) or AGPL v3, the reverse is not possible.
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Except as required by applicable law or agreed to in writing, this software is distributed "AS IS" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTIES OR CONDITIONS OF NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
 
 [Learn more ›](https://docs.photoprism.app/license/apache/)
 
