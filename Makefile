@@ -20,6 +20,12 @@ release: docker-release
 docker-release:
 	./build.sh service linux/amd64,linux/arm64 $(BUILD_DATE)
 
+ollama:
+	docker compose pull ollama
+	docker compose up -d ollama --remove-orphans
+	docker compose exec ollama ollama run llama3.2-vision
+ollama-down:
+	docker compose down ollama --remove-orphans
 start:
 	docker compose --profile=all pull --ignore-pull-failures
 	docker compose up -d
