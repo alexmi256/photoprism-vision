@@ -191,7 +191,12 @@ If your client submits `POST` requests, the request body must be [JSON-encoded](
 ```json
 {
     "id": "3487da77-246e-4b4c-9437-67507177bcd7",
-    "url": "https://dl.photoprism.app/img/team/avatar.jpg"
+    "model": "llama3.2-vision",
+    "version": "latest",
+    "prompt": "In up to 3 sentences, describe what you see in this image.",
+    "images": [
+      "data:image/png;base64,iVBORw0KGgo..."
+    ]
 }
 ```
 
@@ -235,7 +240,10 @@ This is the endpoint for a generation of labels. For detailed output see `ApiRes
     "id": "b0db2187-7a09-438c-8649-a9c6c0f7b8a1",
     "model": "kosmos-2",
     "version": "latest",
-    "url": "https://dl.photoprism.app/img/team/avatar.jpg",
+    "prompt": "In up to 3 sentences, describe what you see in this image.",
+    "images": [
+      "data:image/png;base64,iVBORw0KGgo..."
+    ]
 }
 ```
 
