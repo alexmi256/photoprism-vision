@@ -15,7 +15,7 @@ These changes implement/fix/improve...
 ### Acceptance Criteria
 
 - [ ] New features or enhancements are fully implemented and do not break existing functionality, so that they can be released at any time without requiring additional work
-- [ ] Automated unit and/or acceptance tests have been added to ensure that changes work as expected and to reduce repetitive manual work
+- [ ] Automated unit and/or acceptance tests are included to ensure that changes work as expected and to reduce repetitive manual work
 - [ ] Documentation has been / will be updated, especially as it relates to new configuration options or potentially disruptive changes
 
 ---
