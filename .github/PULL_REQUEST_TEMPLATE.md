@@ -30,5 +30,7 @@ When contributing code or other intellectual property for the first time, we ask
 
 PhotoPrism UG ("PhotoPrism", "we" or "us") hereby confirms to you that, to the fullest extent permitted by applicable law, this Contribution is provided "AS IS" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTIES OR CONDITIONS OF NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE. You have no obligation to provide support, maintenance, or other services for your Contribution.
 
+This agreement is solely for our protection and that of our users. It does not grant us exclusive rights to your code.
+
 **Thank you very much!** 🌈💎✨
 </details>
