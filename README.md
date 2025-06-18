@@ -88,7 +88,8 @@ Ollama usage can be configured through environment variables.
 
 | ENV                   | Default value          | Meaning                             |
 |-----------------------|------------------------|-------------------------------------|
-| OLLAMA_ENABLED        | false                  | true enables loading of integration |
+| OLLAMA_ENABLED        | true                   | true enables loading of integration |
+| LOCAL_IMAGE_PROCESSOR_DISABLED        | false                  | diasable local LLM AI models        |
 | OLLAMA_HOST           | http://localhost:11434 | Url to OLLAMA instance              |
 | OLLAMA_NSFW_PROMPT    | see code               | Prompt used for NSFW detection      |
 | OLLAMA_LABELS_PROMPT  | see code               | Prompt used for label extraction    |
