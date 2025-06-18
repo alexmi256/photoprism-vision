@@ -17,7 +17,10 @@ logging.basicConfig(
 )
 
 app = Flask(__name__)
-image_processors: list[ImageProcessor] = [LocalImageProcessor()]
+image_processors: list[ImageProcessor] = []
+
+if os.getenv('LOCAL_IMAGE_PROCESSOR_DISABLED', 'false').lower() == 'true':
+    image_processors.append(LocalImageProcessor())
 
 if os.getenv('OLLAMA_ENABLED', 'false').lower() == 'true':
     image_processors.append(OllamaImageProcessor())
