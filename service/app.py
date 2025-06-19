@@ -10,9 +10,11 @@ from ollama_processor import OllamaImageProcessor
 from api import ApiResponse, Caption, Model, Text
 from processor import ImageProcessor
 from utils import decode_image, load_image
+from PIL import Image
 
 
 log_level = os.getenv('PV_LOG_LEVEL')
+MAX_IMAGE_DIMENSION = int(os.getenv('PV_MAX_IMAGE_DIMENSION', 1344))
 
 if log_level.lower() == 'debug':
     log_level = logging.DEBUG
@@ -53,6 +55,9 @@ def parse_image_from_request():
         image = load_image(data['url'])
     elif data.get('images'):
         image = decode_image(data['images'][0])
+    # Resize the image
+    if image.width > MAX_IMAGE_DIMENSION or image.height > MAX_IMAGE_DIMENSION:
+        image.thumbnail(size=(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION), resample=Image.Resampling.LANCZOS)
     return data, image
 
 
