@@ -3,6 +3,7 @@ import io
 import logging
 import os
 from typing import override
+from pprint import pformat
 
 import ollama
 from PIL.Image import Image
@@ -29,6 +30,7 @@ nsfw_prompt = os.environ.get('OLLAMA_NSFW_PROMPT',
 class OllamaImageProcessor(ImageProcessor):
     def __init__(self):
         self._models_cache = self._load_models()
+        logger.info(f'{self.__class__.__name__} supports the following models:\n{pformat(self._models_cache)}')
 
     def can_process(self, model_name: str, model_version: str) -> bool:
         model_name = self._get_model_name(model_name, model_version)
@@ -77,6 +79,7 @@ class OllamaImageProcessor(ImageProcessor):
             prompt: str,
             schema=None
     ) -> tuple[str, any]:
+        logger.debug(f'{self.__class__.__name__} using model {model_name} version {model_version} and prompt:\n{prompt}')
         try:
             base64_images = [self._convert_image_to_base64(image) for image in images]
             response = ollama.generate(
@@ -91,7 +94,14 @@ class OllamaImageProcessor(ImageProcessor):
 
     @staticmethod
     def _load_models():
-        return {model['model'] for model in ollama.list()['models']}
+        models = {}
+        try:
+            logger.debug('Loading Ollama models')
+            models = ollama.list()['models']
+        except Exception as e:
+            logger.error('Failed to load Ollama models: %s', str(e))
+
+        return {model['model'] for model in models}
 
     @staticmethod
     def _get_model_name(model_name: str, model_version: str) -> str:
@@ -112,3 +122,7 @@ class OllamaImageProcessor(ImageProcessor):
         if response and response.response:
             return 'ok', response.response.strip()
         return 'error', 'No response from Ollama'
+
+    @override
+    def list_models(self):
+        return self._models_cache
