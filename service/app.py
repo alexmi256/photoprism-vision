@@ -96,6 +96,9 @@ def process_image_caption(model_name: str, model_version: str) -> tuple[Response
             return create_response({'error': "image or url missing"}, HTTPStatus.BAD_REQUEST)
 
         for processor in image_processors:
+            # Try to reload models for processor in case they were not loaded on startup (i.e. remote server offline)
+            if not processor.list_models():
+                processor._load_model()
             if processor.can_process(model_name, model_version):
                 status, result = processor.generate_caption(model_name, model_version, image)
                 if status == 'ok':
