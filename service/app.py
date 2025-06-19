@@ -11,8 +11,22 @@ from api import ApiResponse, Caption, Model, Text
 from processor import ImageProcessor
 from utils import decode_image, load_image
 
+
+log_level = os.getenv('PV_LOG_LEVEL')
+
+if log_level.lower() == 'debug':
+    log_level = logging.DEBUG
+elif log_level.lower() == 'warning':
+    log_level = logging.WARNING
+elif log_level.lower() == 'error':
+    log_level = logging.ERROR
+elif log_level.lower() == 'critical':
+    log_level = logging.CRITICAL
+else:
+    log_level = logging.INFO
+
 logging.basicConfig(
-    level=logging.INFO,
+    level=log_level,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
