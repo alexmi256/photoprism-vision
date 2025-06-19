@@ -383,3 +383,8 @@ class LocalImageProcessor(ImageProcessor):
         if isinstance(processor, NSFWImageProcessor):
             return processor.detect_nsfw(image)
         raise ValueError(f"Model {model_name} does not support NSFW detection")
+
+    @override
+    def list_models(self):
+        """List available models."""
+        return MODEL_CONFIG['MODELS']

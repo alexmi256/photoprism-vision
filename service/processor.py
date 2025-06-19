@@ -36,3 +36,10 @@ class ImageProcessor(ABC):
         :param image: Image object
         """
         pass
+
+    @abstractmethod
+    def list_models(self):
+        """
+        List models for the processor
+        """
+        pass
