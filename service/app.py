@@ -70,6 +70,11 @@ def parse_model_info_from_request() -> tuple[str, str]:
     raise ValueError("model name is required")
 
 
+@app.route('/api/version', methods=['GET'])
+def api_version() -> tuple[Response, int]:
+    return create_response({"v1": "/api/v1"}, HTTPStatus.OK)
+
+
 @app.route('/api/v1/vision/caption', methods=['POST', 'GET'])
 def json_process_image_caption() -> tuple[Response, int]:
     model, version = parse_model_info_from_request()
