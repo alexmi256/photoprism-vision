@@ -32,15 +32,17 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
 image_processors: list[ImageProcessor] = []
 
 if not (os.getenv('LOCAL_IMAGE_PROCESSOR_DISABLED', 'false').lower() == 'true'):
-    logging.debug('Added local image processor')
+    logger.debug('Added local image processor')
     image_processors.append(LocalImageProcessor())
 
 if os.getenv('OLLAMA_ENABLED', 'false').lower() == 'true':
-    logging.debug('Added Ollama image processor')
+    logger.debug('Added Ollama image processor')
     image_processors.append(OllamaImageProcessor())
 
 
@@ -59,7 +61,9 @@ def parse_image_from_request():
         image = decode_image(data['images'][0])
     # Resize the image
     if image.width > MAX_IMAGE_DIMENSION or image.height > MAX_IMAGE_DIMENSION:
+        logger.debug(f'Image size {image.size} exceeds image dimensions of {MAX_IMAGE_DIMENSION}')
         image.thumbnail(size=(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION), resample=Image.Resampling.LANCZOS)
+        logger.debug(f'Image resized to {image.size}')
     return data, image
 
 
@@ -103,7 +107,8 @@ def process_image_caption(model_name: str, model_version: str) -> tuple[Response
         for processor in image_processors:
             # Try to reload models for processor in case they were not loaded on startup (i.e. remote server offline)
             if not processor.list_models():
-                processor._load_model()
+                logger.warning(f'{processor.__class__.__name__} had no models available, trying to reload them')
+                # processor._load_model()
             if processor.can_process(model_name, model_version):
                 status, result = processor.generate_caption(model_name, model_version, image)
                 if status == 'ok':
