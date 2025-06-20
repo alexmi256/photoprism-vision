@@ -64,6 +64,8 @@ def parse_image_from_request():
         logger.debug(f'Image size {image.size} exceeds image dimensions of {MAX_IMAGE_DIMENSION}')
         image.thumbnail(size=(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION), resample=Image.Resampling.LANCZOS)
         logger.debug(f'Image resized to {image.size}')
+    else:
+        logger.debug(f'Image size is {image.size}')
     return data, image
 
 
