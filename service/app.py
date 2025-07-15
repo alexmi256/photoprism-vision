@@ -2,6 +2,7 @@ import logging
 import os
 import uuid
 from http import HTTPStatus
+from pathlib import Path
 
 from flask import Flask, Response, jsonify, request
 
@@ -10,9 +11,13 @@ from ollama_processor import OllamaImageProcessor
 from api import ApiResponse, Caption, Model, Text
 from processor import ImageProcessor
 from utils import decode_image, load_image
+from PIL import Image
 
 
 log_level = os.getenv('PV_LOG_LEVEL')
+MAX_IMAGE_DIMENSION = int(os.getenv('PV_MAX_IMAGE_DIMENSION', 1344))
+# Use this to save the first image we process locally for debugging purposes
+PV_DEBUG_SAVE_FIRST_IMAGE_PATH = os.getenv('PV_DEBUG_SAVE_FIRST_IMAGE_PATH', None)
 
 if log_level.lower() == 'debug':
     log_level = logging.DEBUG
@@ -30,13 +35,17 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
 image_processors: list[ImageProcessor] = []
 
-if os.getenv('LOCAL_IMAGE_PROCESSOR_DISABLED', 'false').lower() == 'true':
+if not (os.getenv('LOCAL_IMAGE_PROCESSOR_DISABLED', 'false').lower() == 'true'):
+    logger.debug('Added local image processor')
     image_processors.append(LocalImageProcessor())
 
 if os.getenv('OLLAMA_ENABLED', 'false').lower() == 'true':
+    logger.debug('Added Ollama image processor')
     image_processors.append(OllamaImageProcessor())
 
 
@@ -53,6 +62,27 @@ def parse_image_from_request():
         image = load_image(data['url'])
     elif data.get('images'):
         image = decode_image(data['images'][0])
+    # Resize the image
+    if image.width > MAX_IMAGE_DIMENSION or image.height > MAX_IMAGE_DIMENSION:
+        logger.debug(f'Image size {image.size} exceeds image dimensions of {MAX_IMAGE_DIMENSION}')
+        image.thumbnail(size=(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION), resample=Image.Resampling.LANCZOS)
+        logger.debug(f'Image resized to {image.size}')
+    else:
+        logger.debug(f'Image size is {image.size}')
+
+    global PV_DEBUG_SAVE_FIRST_IMAGE_PATH
+    if PV_DEBUG_SAVE_FIRST_IMAGE_PATH:
+        try:
+            logger.debug(f'Attempting to save requested image for debugging purposes to {PV_DEBUG_SAVE_FIRST_IMAGE_PATH}')
+            image_path = Path(PV_DEBUG_SAVE_FIRST_IMAGE_PATH).joinpath(f'photoprism_vision_debug_image.jpg')
+
+            image.save(image_path)
+            logger.debug(f'Image saved to {image_path}')
+
+        except Exception as e:
+            logger.exception(f'Failed to save debug image to {PV_DEBUG_SAVE_FIRST_IMAGE_PATH}' + str(e))
+
+        PV_DEBUG_SAVE_FIRST_IMAGE_PATH = False
     return data, image
 
 
@@ -61,6 +91,11 @@ def parse_model_info_from_request() -> tuple[str, str]:
     if data.get('model'):
         return data.get('model'), data.get('version', 'latest')
     raise ValueError("model name is required")
+
+
+@app.route('/api/version', methods=['GET'])
+def api_version() -> tuple[Response, int]:
+    return create_response({"v1": "/api/v1"}, HTTPStatus.OK)
 
 
 @app.route('/api/v1/vision/caption', methods=['POST', 'GET'])
@@ -89,6 +124,12 @@ def process_image_caption(model_name: str, model_version: str) -> tuple[Response
             return create_response({'error': "image or url missing"}, HTTPStatus.BAD_REQUEST)
 
         for processor in image_processors:
+            # Try to reload models for processor in case they were not loaded on startup (i.e. remote server offline)
+            if not processor.list_models():
+                logger.warning(f'{processor.__class__.__name__} had no models available, these should be reloaded.'
+                               f' Restart Photoprism Vision to try again.')
+                # I disabled this for now because it may have been causing excessive calls to Ollama
+                # processor._load_model()
             if processor.can_process(model_name, model_version):
                 status, result = processor.generate_caption(model_name, model_version, image)
                 if status == 'ok':

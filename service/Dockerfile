@@ -63,7 +63,7 @@ RUN echo 'APT::Acquire::Retries "3";' > /etc/apt/apt.conf.d/80retries && \
   echo 'force-confold' > /etc/dpkg/dpkg.cfg.d/force-confold && \
   apt-get update && apt-get -qq dist-upgrade && \
   apt-get -qq install \
-  curl build-essential libhdf5-dev make bash nano rsync pkg-config util-linux && \
+  curl build-essential libhdf5-dev make bash nano rsync pkg-config util-linux iputils-ping && \
   echo 'alias ll="ls -alh"' >> /etc/skel/.bashrc && \
   echo 'export PS1="\u@${BUILD_TAG}:\w\$ "' >> /etc/skel/.bashrc && \
   chmod u=rwx,go=rx /app/scripts/*.sh && \
