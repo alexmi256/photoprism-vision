@@ -2,6 +2,7 @@ import logging
 import os
 import uuid
 from http import HTTPStatus
+from pathlib import Path
 
 from flask import Flask, Response, jsonify, request
 
@@ -15,6 +16,8 @@ from PIL import Image
 
 log_level = os.getenv('PV_LOG_LEVEL')
 MAX_IMAGE_DIMENSION = int(os.getenv('PV_MAX_IMAGE_DIMENSION', 1344))
+# Use this to save the first image we process locally for debugging purposes
+PV_DEBUG_SAVE_FIRST_IMAGE_PATH = os.getenv('PV_DEBUG_SAVE_FIRST_IMAGE_PATH', None)
 
 if log_level.lower() == 'debug':
     log_level = logging.DEBUG
@@ -66,6 +69,20 @@ def parse_image_from_request():
         logger.debug(f'Image resized to {image.size}')
     else:
         logger.debug(f'Image size is {image.size}')
+
+    global PV_DEBUG_SAVE_FIRST_IMAGE_PATH
+    if PV_DEBUG_SAVE_FIRST_IMAGE_PATH:
+        try:
+            logger.debug(f'Attempting to save requested image for debugging purposes to {PV_DEBUG_SAVE_FIRST_IMAGE_PATH}')
+            image_path = Path(PV_DEBUG_SAVE_FIRST_IMAGE_PATH).joinpath(f'photoprism_vision_debug_image.jpg')
+
+            with image_path.open('wb') as image_file:
+                logger.debug(f'Image saved to {image_path}')
+                image_file.write(image.tobytes())
+        except Exception as e:
+            logger.exception(f'Failed to save debug image to {PV_DEBUG_SAVE_FIRST_IMAGE_PATH}' + str(e))
+
+        PV_DEBUG_SAVE_FIRST_IMAGE_PATH = False
     return data, image
 
 

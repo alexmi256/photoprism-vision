@@ -92,6 +92,7 @@ Ollama usage can be configured through environment variables.
 | LOCAL_IMAGE_PROCESSOR_DISABLED | false                  | disable local LLM AI models         |
 | PV_LOG_LEVEL                   | INFO                   | Photoprism Vision log level         |
 | PV_MAX_IMAGE_DIMENSION         | 1344                   | Max image to resize to              |
+| PV_DEBUG_SAVE_FIRST_IMAGE_PATH | None                   | Save first image locally            | 
 | OLLAMA_HOST                    | http://localhost:11434 | Url to OLLAMA instance              |
 | OLLAMA_NSFW_PROMPT             | see code               | Prompt used for NSFW detection      |
 | OLLAMA_LABELS_PROMPT           | see code               | Prompt used for label extraction    |
