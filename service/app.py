@@ -76,9 +76,9 @@ def parse_image_from_request():
             logger.debug(f'Attempting to save requested image for debugging purposes to {PV_DEBUG_SAVE_FIRST_IMAGE_PATH}')
             image_path = Path(PV_DEBUG_SAVE_FIRST_IMAGE_PATH).joinpath(f'photoprism_vision_debug_image.jpg')
 
-            with image_path.open('wb') as image_file:
-                logger.debug(f'Image saved to {image_path}')
-                image_file.write(image.tobytes())
+            image.save(image_path)
+            logger.debug(f'Image saved to {image_path}')
+
         except Exception as e:
             logger.exception(f'Failed to save debug image to {PV_DEBUG_SAVE_FIRST_IMAGE_PATH}' + str(e))
 
