@@ -43,3 +43,7 @@ class ImageProcessor(ABC):
         List models for the processor
         """
         pass
+
+    @abstractmethod
+    def _load_models(self):
+        pass

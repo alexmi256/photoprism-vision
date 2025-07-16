@@ -79,7 +79,8 @@ class OllamaImageProcessor(ImageProcessor):
             prompt: str,
             schema=None
     ) -> tuple[str, any]:
-        logger.debug(f'{self.__class__.__name__} using model "{model_name}" version "{model_version}" and prompt:\n{prompt}')
+        logger.debug(f'{self.__class__.__name__} using model "{model_name}" version "{model_version}" with image length'
+                     f' of {len(images[0])} and prompt:\n{prompt}')
         try:
             base64_images = [self._convert_image_to_base64(image) for image in images]
             response = ollama.generate(
