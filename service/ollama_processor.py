@@ -1,5 +1,6 @@
 import base64
 import io
+import json
 import logging
 import os
 from typing import override
@@ -79,8 +80,23 @@ class OllamaImageProcessor(ImageProcessor):
             prompt: str,
             schema=None
     ) -> tuple[str, any]:
-        logger.debug(f'{self.__class__.__name__} using model "{model_name}" version "{model_version}" with image length'
-                     f' of {len(images[0])} and prompt:\n{prompt}')
+        if logger.getEffectiveLevel() <= logging.DEBUG:
+            try:
+                b64_image_str = images[0] if len(images) else None
+                logger.debug(
+                    f'{self.__class__.__name__} using model "{model_name}" version "{model_version}" with image length'
+                    f' of {b64_image_str} and prompt:\n{prompt}')
+
+                with open("/app/ollama_last_request.json", "w") as outfile:
+                    ollama_request_data = {
+                        'model_name': self._get_model_name(model_name, model_version),
+                        'prompt': prompt,
+                        'images': [self._convert_image_to_base64(image) for image in images],
+                        'format': schema
+                    }
+                    json.dump(ollama_request_data, outfile, indent=4)
+            except Exception as e:
+                logger.exception("Debug mode failed to save last Ollama request", exc_info=e)
         try:
             base64_images = [self._convert_image_to_base64(image) for image in images]
             response = ollama.generate(

@@ -388,3 +388,8 @@ class LocalImageProcessor(ImageProcessor):
     def list_models(self):
         """List available models."""
         return MODEL_CONFIG['MODELS']
+
+    @staticmethod
+    def _load_models():
+        """Load available models."""
+        logger.warning(f"LocalImageProcessor does not support reloading models")

@@ -129,7 +129,7 @@ def process_image_caption(model_name: str, model_version: str) -> tuple[Response
                 logger.warning(f'{processor.__class__.__name__} had no models available, these should be reloaded.'
                                f' Restart Photoprism Vision to try again.')
                 # I disabled this for now because it may have been causing excessive calls to Ollama
-                processor._load_models()
+                # processor._load_models()
             if processor.can_process(model_name, model_version):
                 status, result = processor.generate_caption(model_name, model_version, image)
                 if status == 'ok':

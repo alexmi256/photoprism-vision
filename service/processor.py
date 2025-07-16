@@ -44,6 +44,7 @@ class ImageProcessor(ABC):
         """
         pass
 
+    @staticmethod
     @abstractmethod
-    def _load_models(self):
+    def _load_models():
         pass
