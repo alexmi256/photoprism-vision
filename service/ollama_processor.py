@@ -3,6 +3,7 @@ import io
 import json
 import logging
 import os
+from pathlib import Path
 from typing import override
 from pprint import pformat
 
@@ -87,7 +88,9 @@ class OllamaImageProcessor(ImageProcessor):
                     f'{self.__class__.__name__} using model "{model_name}" version "{model_version}" with image length'
                     f' of {b64_image_str} and prompt:\n{prompt}')
 
-                with open("/app/ollama_last_request.json", "w") as outfile:
+                save_path = Path(os.getenv('PV_DEBUG_SAVE_FIRST_IMAGE_PATH', './'))
+
+                with open(save_path.joinpath("ollama_last_request.json"), "w") as outfile:
                     ollama_request_data = {
                         'model_name': self._get_model_name(model_name, model_version),
                         'prompt': prompt,
