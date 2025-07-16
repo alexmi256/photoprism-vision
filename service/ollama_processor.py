@@ -85,7 +85,7 @@ class OllamaImageProcessor(ImageProcessor):
             try:
                 b64_image_str = images[0] if len(images) else None
                 logger.debug(
-                    f'{self.__class__.__name__} using model "{model_name}" version "{model_version}" with image length'
+                    f'{self.__class__.__name__} using model "{model_name}" version "{model_version}" with image '
                     f' of {b64_image_str} and prompt:\n{prompt}')
 
                 save_path = Path(os.getenv('PV_DEBUG_SAVE_FIRST_IMAGE_PATH', './'))
