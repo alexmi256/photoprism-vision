@@ -15,7 +15,7 @@ from PIL import Image
 
 
 log_level = os.getenv('PV_LOG_LEVEL')
-MAX_IMAGE_DIMENSION = int(os.getenv('PV_MAX_IMAGE_DIMENSION', 1344))
+MAX_IMAGE_DIMENSION = int(os.getenv('PV_MAX_IMAGE_DIMENSION', 1024))
 # Use this to save the first image we process locally for debugging purposes
 PV_DEBUG_SAVE_FIRST_IMAGE_PATH = os.getenv('PV_DEBUG_SAVE_FIRST_IMAGE_PATH', None)
 

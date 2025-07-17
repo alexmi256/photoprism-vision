@@ -101,12 +101,16 @@ class OllamaImageProcessor(ImageProcessor):
             except Exception as e:
                 logger.exception("Debug mode failed to save last Ollama request", exc_info=e)
         try:
+            options = {
+                'num_predict': 512
+            }
             base64_images = [self._convert_image_to_base64(image) for image in images]
             response = ollama.generate(
                 model=self._get_model_name(model_name, model_version),
                 prompt=prompt,
                 images=base64_images,
-                format=schema
+                format=schema,
+                options=options
             )
             return self._process_ollama_response(response)
         except Exception as e:
